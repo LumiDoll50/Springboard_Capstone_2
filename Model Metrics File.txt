@@ -1,0 +1,36 @@
+﻿Model Metrics File
+
+
+Model: Linear Regression 
+Hyperparameters 
+We would have liked to do a thorough tuning of parameters:
+* 'fit_intercept': [True, False]
+* 'copy_X': [True, False]
+* 'n_jobs': [None, 1, 2, -1]
+However, the processing time required is excessive so we reduce to the following:
+* fit_intercept: This is an important parameter that can affect model bias, so we keep both True and False.
+* copy_X: This parameter is usually set to True, and changing it might not significantly impact the results for most use cases, so we only use True.
+* n_jobs: This parameter influences computation time but not the learning process, so we use -1 to make use of all available CPU cores.
+
+
+Model: Random Forest Regressor:
+Hyperparameters
+Likewise, we would have preferred doing a thorough tuning of parameters:
+* 'n_estimators': [100, 200, 300]
+* 'max_depth': [None, 10, 20, 30]
+* 'min_samples_split': [2, 5, 10]
+However, the processing time required is excessive so we reduce to the following:
+* n_estimators: Controls the number of trees in the forest. We reduce to 100 and 200 for quicker evaluations.
+* max_depth: Controls the maximum depth of the tree. None (nodes are expanded until all leaves are pure) might often be the best choice, but we keep 10 and 20 to prevent overfitting.
+
+
+Hyperparameter Tuning: RandomizedSearchCV
+Linear Regression
+RandomizedSearchCV(estimator=lr, param_distributions=lr_params, n_iter=5, cv=tscv, scoring='neg_mean_squared_error', random_state=42, n_jobs=-1)
+Random Forest Regressor
+RandomizedSearchCV(estimator=rf, param_distributions=random_params, n_iter=2, cv=tscv, scoring='neg_mean_squared_error', random_state=42, n_jobs=-1)
+
+
+Performance Metrics
+mse_lr = mean_squared_error(y_test, y_pred_lr)
+r2_lr = r2_score
